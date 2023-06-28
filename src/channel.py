@@ -21,15 +21,40 @@ class Channel:
             количество подписчиков
             количество видео
             общее количество просмотров
-"""
+        """
         self.__channel_id: str = channel_id
         _channel_info = self.get_info()
         self.title = _channel_info["items"][0]["snippet"]["title"]
         self.description = _channel_info["items"][0]["snippet"]["description"]
         self.url = f'https://www.youtube.com/channel/{self.__channel_id}'
-        self.subscriber = _channel_info["items"][0]["statistics"]["subscriberCount"]
+        self.subscriber = int(_channel_info["items"][0]["statistics"]["subscriberCount"])
         self.video_count = _channel_info["items"][0]["statistics"]["videoCount"]
         self.viewers = _channel_info["items"][0]["statistics"]["viewCount"]
+
+    def __str__(self) -> str:
+        """`<название_канала> (<ссылка_на_канал>)`"""
+        return f"'{self.title} ({self.url})'"
+
+    def __add__(self, other) -> int:
+        return self.subscriber + other.subscriber
+
+    def __sub__(self, other) -> int:
+        return self.subscriber - other.subscriber
+
+    def __lt__(self, other) -> bool:
+        return self.subscriber < other.subscriber
+
+    def __le__(self, other) -> bool:
+        return self.subscriber <= other.subscriber
+
+    def __gt__(self, other) -> bool:
+        return self.subscriber > other.subscriber
+
+    def __ge__(self, other) -> bool:
+        return self.subscriber >= other.subscriber
+
+    def __eq__(self, other) -> bool:
+        return self.subscriber == other.subscriber
 
     @property
     def channel_id(self):
